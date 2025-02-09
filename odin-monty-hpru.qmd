@@ -1,0 +1,77 @@
+---
+title: "the odin-monty toolkit"
+author: "Marc Baguelin, Ed Knock, Rich FitzJohn"
+date: "14-02-2025"
+format: revealjs
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## odin - the beginnings
+
+- **odin** created to integrate ODEs (e.g. for compartmental models) in R with a domain-specific language (DSL)
+- later difference (discrete-time) equations
+- Simplifies the transition from mathematical model to efficient C++ code handled in R
+
+## Pre-Pandemic
+
+- odin in use for various epidemiological and mathematical modelling tasks  
+- Provided a consistent DSL to keep modelling workflow organized and less error-prone
+
+## Pandemic collaboration
+
+- **mcstate** and **dust** emerged during the COVID-19 pandemic  
+- Collaborative work by the UK real-time modelling & software engineers teams at Imperial College
+- Tailored to handle and fit complex state-space models at scale (e.g. Knock et al. 2021)
+
+## Challenges addressed by dust and mcstate
+
+- Need for **efficient** (marginal) likelihood computation for large stochastic models
+- Exploit parallelism and particle filters
+- Built on top of odin’s approach, adding support for parameter inference and particle filtering
+
+## Rethinking the design
+
+- Post-pandemic, recognized areas for improvement:  
+  - More sophisticated data flows (better architecture for inference)  
+  - Support for probabilistic modeling extensions with an odin-like DSL
+  - Modular philosophy to handle dynamical (odin) and statistical (monty) models together
+
+## Birth of odin2 and dust2 (Rich)
+
+-> @Rich for most people odin2 and dust2 are the same than odin and dust: can you summarise how the change make the whole toolkit more efficient? the parallelisation of parameter+stochastic draw groups is one I see and better memory usage between "fixed data" and changing parameters but feel free to put what you think
+
+## Introducing monty
+
+- **monty**: A framework to handle statistical models (defined by density)  
+- Aims to offers multiple sampling solutions
+- Modular approach so that odin and monty "collaborate" but remain independent
+
+## The odin-monty vision
+
+- Provide a **modern modeling ecosystem**:  
+  1. Powerful DSL (odin2+monty)  
+  2. Streamlined simulation & filtering engine (dust2)  
+  3. User-friendly statistical integration platform (monty)  
+- Empower researchers to build robust models quickly, accelerating scientific insights
+
+## Ressources
+
+- We will provide a demonstration
+- You can find more in [our online odin-monty book](https://mrc-ide.github.io/odin-monty/) 
+
+## 2025 Roadmap {.smaller}
+
+- Some missing features from mcstate/dust1
+  - multi-stage filters
+  - restarting filters
+  - GPU-accelerated fitting
+  - SMC^2 and IF (perhaps)
+- Some almost-ready features
+  - Parallel tempering (exploit parallelism, cope with multiple modes)
+  - Automatic differentiation to be extended to almost all odin models
+  - NUTS and HMC algorithms
+
