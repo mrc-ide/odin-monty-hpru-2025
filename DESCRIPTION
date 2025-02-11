@@ -1,0 +1,11 @@
+Package: odin.dust.hpru.2025
+Title: Odin Dust HPRU 2025
+Version: 1.0
+Authors@R: c(person("Rich", "FitzJohn", role = c("aut", "cre"),
+                    email = "rich.fitzjohn@gmail.com"),
+             person("Imperial College of Science, Technology and Medicine",
+                    role = "cph"))
+Imports:
+    quarto,
+    rmarkdown
+Encoding: UTF-8
