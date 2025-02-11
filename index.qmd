@@ -58,7 +58,7 @@ knitr::opts_chunk$set(echo = FALSE)
     3.  User-friendly statistical integration platform (monty)\
 -   Empower researchers to build robust models quickly, accelerating scientific insights
 
-## Ressources
+## Resources
 
 -   We will provide a demonstration
 -   You can find more in [our online odin-monty book](https://mrc-ide.github.io/odin-monty/)
