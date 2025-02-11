@@ -7,5 +7,6 @@ Authors@R: c(person("Rich", "FitzJohn", role = c("aut", "cre"),
                     role = "cph"))
 Imports:
     quarto,
-    rmarkdown
+    rmarkdown,
+    qrcode
 Encoding: UTF-8
