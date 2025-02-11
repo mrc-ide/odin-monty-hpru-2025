@@ -1,3 +1,6 @@
+project:
+  output-dir: _site
+
 format:
   revealjs:
     preview-links: auto
