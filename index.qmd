@@ -27,63 +27,38 @@ knitr::knit_hooks$set(small_margins = function(before, options, envir) {
 })
 ```
 
-# Tooling up
-
-## odin - the beginnings
+## odin - the beginnings (2016-2019)
 
 -   **odin** created to integrate ODEs (e.g. for compartmental models) in R with a domain-specific language (DSL)
--   later difference (discrete-time) equations
--   Simplifies the transition from mathematical model to efficient C++ code handled in R
+-   Limited support for difference (discrete-time) equations
+-   Automatic translation to C/C++/JavaScript; efficient solutions in little code
+-   Used in models of malaria, HIV, ebola and other diseases
+-   No support for inference
 
-## Pre-Pandemic
-
--   odin in use for various epidemiological and mathematical modelling tasks
--   Provided a consistent DSL to keep modelling workflow organized and less error-prone
-
-## Pandemic collaboration
+## COVID-19 response
 
 -   **mcstate** and **dust** emerged during the COVID-19 pandemic
--   Collaborative work by the UK real-time modelling & software engineers teams at Imperial College
+-   Collaborative work by the UK real-time modelling & research software engineers teams at Imperial College
 -   Tailored to handle and fit complex state-space models at scale (e.g. Knock et al. 2021)
 
 ## Challenges addressed by dust and mcstate
 
--   Need for **efficient** (marginal) likelihood computation for large stochastic models
--   Exploit parallelism and particle filters
--   Built on top of odin’s approach, adding support for parameter inference and particle filtering
+-   **Efficient** (marginal) likelihood computation for large stochastic models
+-   Exploit parallelism (OpenMP) and particle filters
+-   Limited toolkit for inference for models created in odin
 
-# Rethinking the design
-
-## Limitations
-
--   Post-pandemic, recognized areas for improvement:
-    -   Need to go beyond particle-filter-based samplers in particular HMC and Parallel tempering
-    -   Need of better architecture for real modularity
-    -   Need to improve the interface
-
-## An ambitious vision
+## Recent developments
 
 - Design of a new architecture, rewiring data, model and parameters
+  - rewrite from ground up, keeping best ideas and discarding some baggage
+- Design of a new interface
+
+  - new small BUGS-inspired DSL for priors
+  - modular approach to inference
+  - inverts the dependency stack
 - Development of automatic differentiation algorithms
-- Design of a new interface 
 
-## Untangling the spaghetti {.smaller}
-
-![](images/dependencies_odin_mcstate.png)
-
-- Data can mean
-    - Model parameter (e.g. age-specific vaccination schedule)
-    - Observations of model (e.g. number of daily hospitalisations)
-    
-- To achieve modularity, need to decouple dependencies
-
-## Introducing monty
-
--   **monty**: A framework to handle statistical models (defined by their domain and density)
--   Aims to offers multiple sampling solutions
--   Modular approach so that odin and monty "collaborate" but remain independent
-
-## A new architecture
+## Key components
 
 ::::: columns
 ::: {.column width="60%"}
@@ -97,10 +72,16 @@ knitr::knit_hooks$set(small_margins = function(before, options, envir) {
     - odin and data
     - custom DSL
     - by composition
-- MCMC samplers work on monty models
+- MCMC samplers work on any monty model
 
 :::
 :::::
+
+## Introducing monty
+
+-   **monty**: A framework to handle statistical models (defined by their domain and density)
+-   Aims to offers multiple sampling solutions
+-   Modular approach so that odin and monty "collaborate" but remain independent
 
 ## Introducing automatic differentiation {.smaller}
 
@@ -151,7 +132,12 @@ Goal: a large class of odin models and the DSL monty models can autodifferentiat
 
 ## 2025 Roadmap {.smaller}
 
--   Some missing features from mcstate/dust1
+- Finish development of automatic differentiation
+- NUTS and HMC algorithms
+- GPU acceleration via CUDA graph API
+- MPI-based backend for many-node
+
+Some missing features from mcstate/dust1
     -   multi-stage filters
     -   restarting filters
     -   GPU-accelerated fitting
@@ -159,7 +145,7 @@ Goal: a large class of odin models and the DSL monty models can autodifferentiat
 -   Some almost-ready features
     -   Parallel tempering (exploit parallelism, cope with multiple modes)
     -   Automatic differentiation to be extended to almost all odin models
-    -   NUTS and HMC algorithms
+
 
 ## Resources
 
