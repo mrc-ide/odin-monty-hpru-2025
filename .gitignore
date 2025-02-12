@@ -52,3 +52,4 @@ rsconnect/
 
 *.html
 *_files/
+_site
