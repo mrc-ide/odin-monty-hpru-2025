@@ -1,14 +1,33 @@
 ---
 title: "the odin-monty toolkit"
-author: "Marc Baguelin, Ed Knock, Rich FitzJohn"
-date: "14-02-2025"
-format: revealjs
+author: "Rich FitzJohn, Marc Baguelin, Ed Knock"
+date: "2025-02-13"
+format:
+    revealjs:
+        slide-number: c/t
+        footer: "[the odin-monty toolkit](https://mrc-ide.github.io/odin-monty/)"
 editor: visual
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+r_output <- function(path, highlight = NULL) {
+  if (is.null(highlight)) {
+    prefix <- "```r"
+  } else {
+    prefix <- sprintf('```{.r code-line-numbers="%s"}', highlight)
+  }
+  writeLines(c(prefix, readLines(path), "```"))
+}
+set.seed(1) # always the same
+knitr::knit_hooks$set(small_margins = function(before, options, envir) {
+  if (before) {
+    par(mar = c(4, 4, .1, .1))
+  }
+})
 ```
+
+# Tooling up
 
 ## odin - the beginnings
 
@@ -18,12 +37,12 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Pre-Pandemic
 
--   odin in use for various epidemiological and mathematical modelling tasks\
+-   odin in use for various epidemiological and mathematical modelling tasks
 -   Provided a consistent DSL to keep modelling workflow organized and less error-prone
 
 ## Pandemic collaboration
 
--   **mcstate** and **dust** emerged during the COVID-19 pandemic\
+-   **mcstate** and **dust** emerged during the COVID-19 pandemic
 -   Collaborative work by the UK real-time modelling & software engineers teams at Imperial College
 -   Tailored to handle and fit complex state-space models at scale (e.g. Knock et al. 2021)
 
@@ -33,35 +52,102 @@ knitr::opts_chunk$set(echo = FALSE)
 -   Exploit parallelism and particle filters
 -   Built on top of odin’s approach, adding support for parameter inference and particle filtering
 
-## Rethinking the design
+# Rethinking the design
+
+## Limitations
 
 -   Post-pandemic, recognized areas for improvement:
-    -   More sophisticated data flows (better architecture for inference)\
-    -   Support for probabilistic modeling extensions with an odin-like DSL
-    -   Modular philosophy to handle dynamical (odin) and statistical (monty) models together
+    -   Need to go beyond particle-filter-based samplers in particular HMC and Parallel tempering
+    -   Need of better architecture for real modularity
+    -   Need to improve the interface
 
-## Birth of odin2 and dust2 (Rich)
+## An ambitious vision
 
--\> @Rich for most people odin2 and dust2 are the same than odin and dust: can you summarise how the change make the whole toolkit more efficient? the parallelisation of parameter+stochastic draw groups is one I see and better memory usage between "fixed data" and changing parameters but feel free to put what you think
+- Design of a new architecture, rewiring data, model and parameters
+- Development of automatic differentiation algorithms
+- Design of a new interface 
+
+## Untangling the spaghetti {.smaller}
+
+![](images/dependencies_odin_mcstate.png)
+
+- Data can mean
+    - Model parameter (e.g. age-specific vaccination schedule)
+    - Observations of model (e.g. number of daily hospitalisations)
+    
+- To achieve modularity, need to decouple dependencies
 
 ## Introducing monty
 
--   **monty**: A framework to handle statistical models (defined by density)\
+-   **monty**: A framework to handle statistical models (defined by their domain and density)
 -   Aims to offers multiple sampling solutions
 -   Modular approach so that odin and monty "collaborate" but remain independent
+
+## A new architecture
+
+::::: columns
+::: {.column width="60%"}
+![](images/dependencies_odin_monty.png)
+:::
+
+::: {.column width="40%"}
+
+- Concept of "packer"
+- monty models can be built from
+    - odin and data
+    - custom DSL
+    - by composition
+- MCMC samplers work on monty models
+
+:::
+:::::
+
+## Introducing automatic differentiation {.smaller}
+
+::::: columns
+::: {.column width="60%"}
+![](images/graph_one_step.png)
+
+:::
+
+::: {.column width="40%"}
+
+```{r}
+#| results: "asis"
+r_output("models/sir_4_AD.R")
+```
+
+:::
+:::::
+
+## Introducing automatic differentiation {.smaller}
+
+![](images/chained_graph.png)
+
+- odin DSL is small
+- Ladder shaped computation graph
+- Regular parameter inputting (red)
+- Regular state outputting (green)
+
+## Reverse automatic differentiation {.smaller}
+
+![](images/SSM_autodiff.png)
+
+Goal: a large class of odin models and the DSL monty models can autodifferentiate
 
 ## The odin-monty vision
 
 -   Provide a **modern modeling ecosystem**:
-    1.  Powerful DSL (odin2+monty)\
-    2.  Streamlined simulation & filtering engine (dust2)\
-    3.  User-friendly statistical integration platform (monty)\
+    1.  Powerful DSL (odin2+monty)
+    2.  Streamlined parallel simulation & filtering engine (dust2)
+    3.  User-friendly statistical integration platform (monty)
 -   Empower researchers to build robust models quickly, accelerating scientific insights
 
-## Resources
+# Toward the future
 
--   We will provide a demonstration
--   You can find more in [our online odin-monty book](https://mrc-ide.github.io/odin-monty/)
+## odin2 and dust2 (Rich)
+
+-\> @Rich for most people odin2 and dust2 are the same than odin and dust: can you summarise how the change make the whole toolkit more efficient? the parallelisation of parameter+stochastic draw groups is one I see and better memory usage between "fixed data" and changing parameters but feel free to put what you think
 
 ## 2025 Roadmap {.smaller}
 
@@ -75,31 +161,32 @@ knitr::opts_chunk$set(echo = FALSE)
     -   Automatic differentiation to be extended to almost all odin models
     -   NUTS and HMC algorithms
 
+## Resources
+
+-   We will provide a demonstration
+-   You can find more in [our online odin-monty book](https://mrc-ide.github.io/odin-monty/)
+
 ## Odin-Monty Workshop {.smaller}
-::: columns
 
-:::: {.column width="60%"}
-📅 **24–25 March 2025**  
-📍 **White City, Imperial College London**  
+::::: columns
+::: {.column width="60%"}
+📅 **24–25 March 2025**
+📍 **White City, Imperial College London**
 
-✅ **Hybrid participation available**  
-✅ **Travel grants available**  
-✅ **Lightning talk slots!**  
+✅ **Hybrid participation available**
+✅ **Travel grants available**
+✅ **Lightning talk slots!**
 
-🔗 **Register now [here]("https://docs.google.com/forms/d/e/1FAIpQLSePERaKXjMMYK0re1mh--2nNM5PCUZaRrd-SL_zSqAYY-pk5A/viewform")!**
+🔗 **Register now [here](https://docs.google.com/forms/d/e/1FAIpQLSePERaKXjMMYK0re1mh--2nNM5PCUZaRrd-SL_zSqAYY-pk5A/viewform)!**
 
-⚠️ **Deadline: 19/02 – Don't miss out!** 
+⚠️ **Deadline: 19/02 – Don't miss out!**
+:::
 
-
-::::
-
-:::: {.column width="40%"}
+::: {.column width="40%"}
 ```{r, echo=FALSE}
 #| fig-width: 8
 code <- qrcode::qr_code("https://docs.google.com/forms/d/e/1FAIpQLSePERaKXjMMYK0re1mh--2nNM5PCUZaRrd-SL_zSqAYY-pk5A/viewform")
 plot(code)
 ```
-::::
-
 :::
-
+:::::
