@@ -76,30 +76,26 @@ knitr::opts_chunk$set(echo = FALSE)
     -   NUTS and HMC algorithms
 
 ## Odin-Monty Workshop {.smaller}
-::: columns
 
-:::: {.column width="60%"}
-📅 **24–25 March 2025**  
-📍 **White City, Imperial College London**  
+::::: columns
+::: {.column width="60%"}
+📅 **24–25 March 2025**\
+📍 **White City, Imperial College London**
 
-✅ **Hybrid participation available**  
-✅ **Travel grants available**  
-✅ **Lightning talk slots!**  
+✅ **Hybrid participation available**\
+✅ **Travel grants available**\
+✅ **Lightning talk slots!**
 
-🔗 **Register now [here]("https://docs.google.com/forms/d/e/1FAIpQLSePERaKXjMMYK0re1mh--2nNM5PCUZaRrd-SL_zSqAYY-pk5A/viewform")!**
+🔗 **Register now [here](%22https://docs.google.com/forms/d/e/1FAIpQLSePERaKXjMMYK0re1mh--2nNM5PCUZaRrd-SL_zSqAYY-pk5A/viewform%22)!**
 
-⚠️ **Deadline: 19/02 – Don't miss out!** 
+⚠️ **Deadline: 19/02 – Don't miss out!**
+:::
 
-
-::::
-
-:::: {.column width="40%"}
+::: {.column width="40%"}
 ```{r, echo=FALSE}
 #| fig-width: 8
 code <- qrcode::qr_code("https://docs.google.com/forms/d/e/1FAIpQLSePERaKXjMMYK0re1mh--2nNM5PCUZaRrd-SL_zSqAYY-pk5A/viewform")
 plot(code)
 ```
-::::
-
 :::
-
+:::::
