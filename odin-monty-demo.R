@@ -1,8 +1,4 @@
-## Read in incidence data; see data/incidence.csv for original
-d <- data.frame(
-  time = 1:20,
-  cases = c(12, 23, 25, 36, 30, 57, 59, 62, 47, 52, 56, 33, 34, 19, 27,
-            25, 15, 20, 11, 7))
+d <- read.csv("data/incidence.csv")
 
 ## system of equations written in odin, compile into dust
 ## Note that dt (the step size) is a special parameter
@@ -32,7 +28,7 @@ sir <- odin2::odin({
 })
 
 ## Run a single simulation
-sys <- dust2::dust_system_create(sir, list(), dt = 0.25)
+sys <- dust2::dust_system_create(sir, pars = list(), dt = 0.25)
 dust2::dust_system_set_state_initial(sys)
 t <- seq(0, 100)
 y <- dust2::dust_system_simulate(sys, t)
@@ -41,7 +37,7 @@ y <- dust2::dust_unpack_state(sys, y)
 plot(t, y$incidence, type = "l", xlab = "Time", ylab = "Infection incidence")
 
 ## Run multiple simulations
-sys <- dust2::dust_system_create(sir, list(), n_particles = 50,
+sys <- dust2::dust_system_create(sir, pars = list(), n_particles = 50, 
                                  dt = 0.25)
 dust2::dust_system_set_state_initial(sys)
 t <- seq(0, 100)
@@ -84,7 +80,7 @@ vcv <- diag(2) * 0.01
 sampler <- monty::monty_sampler_random_walk(vcv)
 
 ## Run PMCMC
-samples <- monty::monty_sample(posterior, sampler, 1000,
+samples <- monty::monty_sample(posterior, sampler, n_steps = 1000,
                                initial = c(0.3, 0.1),
                                n_chains = 4)
 
@@ -132,7 +128,7 @@ posterior <- likelihood + prior
 vcv <- diag(2) * 0.001
 
 sampler <- monty::monty_sampler_random_walk(vcv)
-samples_det <- monty::monty_sample(posterior, sampler, 1000,
+samples_det <- monty::monty_sample(posterior, sampler, n_steps = 1000,
                                    initial = c(0.3, 0.1),
                                     n_chains = 4)
 samples_df <- posterior::as_draws_df(samples_det)
