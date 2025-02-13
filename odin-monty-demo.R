@@ -5,6 +5,7 @@ d <- data.frame(
             25, 15, 20, 11, 7))
 
 ## system of equations written in odin, compile into dust
+## Note that dt (the step size) is a special parameter
 sir <- odin2::odin({
   update(S) <- S - n_SI
   update(I) <- I + n_SI - n_IR
@@ -127,19 +128,30 @@ prior <- monty::monty_dsl({
 })
 
 posterior <- likelihood + prior
+## We will use smaller variance here
 vcv <- diag(2) * 0.001
 
 sampler <- monty::monty_sampler_random_walk(vcv)
-samples <- monty::monty_sample(posterior, sampler, 1000,
-                               initial = c(0.3, 0.1),
-                               n_chains = 4)
-samples_df <- posterior::as_draws_df(samples)
+samples_det <- monty::monty_sample(posterior, sampler, 1000,
+                                   initial = c(0.3, 0.1),
+                                    n_chains = 4)
+samples_df <- posterior::as_draws_df(samples_det)
 posterior::summarise_draws(samples_df)
 
-samples <- monty::monty_samples_thin(samples, thinning_factor = 4, burnin = 500)
+samples_det<- monty::monty_samples_thin(samples_det, thinning_factor = 4,
+                                        burnin = 500)
 y <- dust2::dust_unpack_state(filter,
-                              samples$observations$trajectories)
+                              samples_det$observations$trajectories)
 incidence <- array(y$incidence, c(20, 500))
 matplot(d$time, incidence, type = "l", lty = 1, col = "#00000044",
         xlab = "Time", ylab = "Infected population", ylim = c(0, 75))
 points(cases ~ time, d, pch = 19, col = "red")
+
+
+pars_stochastic <- array(samples$pars, c(2, 500))
+pars_deterministic <- array(samples_det$pars, c(2, 500))
+plot(pars_stochastic[1, ], pars_stochastic[2, ], ylab = "gamma", xlab = "beta",
+     pch = 19, col = "blue")
+points(pars_deterministic[1, ], pars_deterministic[2, ], pch = 19, col = "red")
+legend("bottomright", c("stochastic fit", "deterministic fit"), pch = c(19, 19), 
+       col = c("blue", "red"))
