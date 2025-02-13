@@ -32,7 +32,7 @@ sir <- odin2::odin({
 })
 
 ## Run a single simulation
-sys <- dust2::dust_system_create(sir, list(), dt = 0.25)
+sys <- dust2::dust_system_create(sir, pars = list(), dt = 0.25)
 dust2::dust_system_set_state_initial(sys)
 t <- seq(0, 100)
 y <- dust2::dust_system_simulate(sys, t)
@@ -41,7 +41,7 @@ y <- dust2::dust_unpack_state(sys, y)
 plot(t, y$incidence, type = "l", xlab = "Time", ylab = "Infection incidence")
 
 ## Run multiple simulations
-sys <- dust2::dust_system_create(sir, list(), n_particles = 50,
+sys <- dust2::dust_system_create(sir, pars = list(), n_particles = 50, 
                                  dt = 0.25)
 dust2::dust_system_set_state_initial(sys)
 t <- seq(0, 100)
@@ -84,7 +84,7 @@ vcv <- diag(2) * 0.01
 sampler <- monty::monty_sampler_random_walk(vcv)
 
 ## Run PMCMC
-samples <- monty::monty_sample(posterior, sampler, 1000,
+samples <- monty::monty_sample(posterior, sampler, n_steps = 1000,
                                initial = c(0.3, 0.1),
                                n_chains = 4)
 
@@ -132,7 +132,7 @@ posterior <- likelihood + prior
 vcv <- diag(2) * 0.001
 
 sampler <- monty::monty_sampler_random_walk(vcv)
-samples_det <- monty::monty_sample(posterior, sampler, 1000,
+samples_det <- monty::monty_sample(posterior, sampler, n_steps = 1000,
                                    initial = c(0.3, 0.1),
                                     n_chains = 4)
 samples_df <- posterior::as_draws_df(samples_det)
