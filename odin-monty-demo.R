@@ -1,4 +1,8 @@
-d <- read.csv("data/incidence.csv")
+## Read in incidence data; see data/incidence.csv for original
+d <- data.frame(
+  time = 1:20,
+  cases = c(12, 23, 25, 36, 30, 57, 59, 62, 47, 52, 56, 33, 34, 19, 27,
+            25, 15, 20, 11, 7))
 
 ## system of equations written in odin, compile into dust
 sir <- odin2::odin({
