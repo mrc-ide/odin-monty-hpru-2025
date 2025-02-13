@@ -28,6 +28,16 @@ knitr::knit_hooks$set(small_margins = function(before, options, envir) {
 })
 ```
 
+## Interactive session
+
+```{r, echo=FALSE}
+#| fig-width: 8
+code <- qrcode::qr_code("https://github.com/mrc-ide/odin-monty-hpru-2025?tab=readme-ov-file#interactive-session")
+plot(code)
+```
+
+[`github.com/mrc-ide/odin-monty-hpru-2025`](https://github.com/mrc-ide/odin-monty-hpru-2025)
+
 ## odin - the beginnings (2016-2019)
 
 -   **`odin`** created to integrate ODEs (e.g. for compartmental models) in R with a domain-specific language (DSL)
@@ -128,6 +138,14 @@ Goal: a large class of `odin` models and the DSL `monty` models can autodifferen
 # In action!
 
 (switch to RStudio and Ed here)
+
+```{r, echo=FALSE}
+#| fig-width: 8
+code <- qrcode::qr_code("https://github.com/mrc-ide/odin-monty-hpru-2025?tab=readme-ov-file#interactive-session")
+plot(code)
+```
+
+[`github.com/mrc-ide/odin-monty-hpru-2025`](https://github.com/mrc-ide/odin-monty-hpru-2025)
 
 # Toward the future
 
