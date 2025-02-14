@@ -1,3 +1,13 @@
+## Install packages needed (this will install odin2/dust2/monty)
+install.packages(
+  c("odin2", "decor", "pkgload"),
+  repos = c("https://mrc-ide.r-universe.dev", "https://cloud.r-project.org"))
+
+## Check if you have RTools on Windows,
+## XCode command line tools on macOS or a 
+## functioning C++ toolchain on Linux
+pkgbuild::check_build_tools(debug = TRUE)
+
 ## Read in incidence data; see data/incidence.csv for original
 d <- data.frame(
   time = 1:20,
