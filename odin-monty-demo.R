@@ -1,6 +1,6 @@
 ## Install packages needed (this will install odin2/dust2/monty)
 install.packages(
-  c("odin2", "decor", "pkgload"),
+  c("odin2", "decor", "pkgload", "posterior", "brio"),
   repos = c("https://mrc-ide.r-universe.dev", "https://cloud.r-project.org"))
 
 ## Check if you have RTools on Windows,
