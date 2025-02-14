@@ -5,6 +5,7 @@ subtitle: "MRC Centre for Global Infectious Disease Analysis, Imperial College L
 date: "2025-02-13"
 format:
     revealjs:
+        logo: "images/logo.png"
         slide-number: c/t
         footer: "[the odin-monty toolkit](https://mrc-ide.github.io/odin-monty/)"
 editor: visual
@@ -93,6 +94,16 @@ plot(code)
 -   **`monty`**: A framework to handle statistical models (defined by their domain and density)
 -   Aims to offers multiple sampling solutions
 -   Modular approach so that `odin` and `monty` "collaborate" but remain independent
+
+## Different samplers
+
+::: {layout-ncol=2}
+
+![HMC](images/HMC.png)
+
+![PT](images/PT.png)
+
+:::
 
 ## Introducing automatic differentiation {.smaller}
 
