@@ -15,7 +15,7 @@ Install the packages:
 
 ```r
 install.packages(
-  c("odin2", "decor", "pkgload"),
+  c("odin2", "decor", "pkgload", "posterior"),
   repos = c("https://mrc-ide.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
